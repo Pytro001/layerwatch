@@ -1,0 +1,20 @@
+{
+  "name": "layerwatch-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "vite --port 5304 --strictPort",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 5304 --strictPort"
+  },
+  "dependencies": {
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.4"
+  }
+}

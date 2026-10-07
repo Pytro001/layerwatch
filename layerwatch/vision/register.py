@@ -48,7 +48,7 @@ def ecc_mask() -> np.ndarray:
 
 _MASK = ecc_mask()
 _CRIT = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 60, 1e-5)
-_CRIT_FINE = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 25, 1e-5)
+_CRIT_FINE = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 30, 1e-4)
 _CRIT_FULL = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 8, 1e-5)
 
 
@@ -57,30 +57,65 @@ def _prep(img: np.ndarray) -> np.ndarray:
     return cv.GaussianBlur(f, (0, 0), 1.0)
 
 
+MAX_SHIFT = 15.0
+
+
+def displacement(W: np.ndarray) -> float:
+    return corner_error(W, np.eye(3))
+
+
+def _ecc_level(t, i, W, scale, motion, crit):
+    n = S // scale
+    ts = cv.resize(t, (n, n), interpolation=cv.INTER_AREA)
+    im = cv.resize(i, (n, n), interpolation=cv.INTER_AREA)
+    ms = cv.resize(_MASK, (n, n), interpolation=cv.INTER_NEAREST)
+    Sc = np.diag([scale, scale, 1.0]).astype(np.float32)
+    Ws = (np.linalg.inv(Sc) @ W @ Sc).astype(np.float32)
+    if motion != cv.MOTION_HOMOGRAPHY:
+        Ws = Ws[:2].copy()
+    cc, Ws = cv.findTransformECC(ts, im, Ws, motion, crit, ms, 3)
+    if Ws.shape[0] == 2:
+        Ws = np.vstack([Ws, [0, 0, 1]]).astype(np.float32)
+    return float(cc), (Sc @ Ws @ np.linalg.inv(Sc)).astype(np.float32)
+
+
 def register(img_rect: np.ndarray, ref_rect: np.ndarray) -> dict:
-    """ECC homography from the reference to this frame, coarse (half size) then fine.
-    Returns the aligned image, the warp and the final correlation coefficient."""
+    """ECC homography from the reference to this frame over a pyramid
+    (1/4 scale translation to get close, 1/2 scale homography, a few full scale steps to finish).
+    If the homography does not converge at the coarse level, a rigid (Euclidean)
+    ECC gives it a starting point; a level that fails keeps the previous level's
+    warp. Returns the aligned image, the warp and the final correlation."""
     W = np.eye(3, dtype=np.float32)
-    cc = 0.0
-    ok = True
+    cc, levels = 0.0, 0
+    t, i = _prep(ref_rect), _prep(img_rect)
+    # 1/4 scale: translation only (the rim is ~6 px wide there, too thin for 8 parameters)
     try:
-        # pyramid: 1/4 scale to get close, 1/2 scale to refine, a few full scale steps to finish
-        t, i = _prep(ref_rect), _prep(img_rect)
-        for k, (scale, crit) in enumerate(((4, _CRIT), (2, _CRIT_FINE), (1, _CRIT_FULL))):
-            n = S // scale
-            ts = cv.resize(t, (n, n), interpolation=cv.INTER_AREA)
-            im = cv.resize(i, (n, n), interpolation=cv.INTER_AREA)
-            ms = cv.resize(_MASK, (n, n), interpolation=cv.INTER_NEAREST)
-            Sc = np.diag([scale, scale, 1.0]).astype(np.float32)
-            Ws = (np.linalg.inv(Sc) @ W @ Sc).astype(np.float32)
-            cc, Ws = cv.findTransformECC(ts, im, Ws, cv.MOTION_HOMOGRAPHY, crit, ms, 3)
-            W = (Sc @ Ws @ np.linalg.inv(Sc)).astype(np.float32)
+        _, W = _ecc_level(t, i, W, 4, cv.MOTION_TRANSLATION, _CRIT)
     except cv.error:
-        ok = False
         W = np.eye(3, dtype=np.float32)
+    for scale, crit in ((2, _CRIT_FINE), (1, _CRIT_FULL)):
+        try:
+            cc_k, W_k = _ecc_level(t, i, W, scale, cv.MOTION_HOMOGRAPHY, crit)
+            # vibration moves the bed by a few pixels; a warp that moves the plate corners
+            # by more than MAX_SHIFT px has diverged, keep the previous level instead
+            if displacement(W_k) > MAX_SHIFT:
+                continue
+            cc, W = cc_k, W_k
+            levels += 1
+        except cv.error:
+            if levels == 0:
+                try:
+                    cc, W = _ecc_level(t, i, W, scale, cv.MOTION_EUCLIDEAN, _CRIT)
+                    cc, W = _ecc_level(t, i, W, scale, cv.MOTION_HOMOGRAPHY, crit)
+                    levels += 1
+                except cv.error:
+                    pass
+    ok = levels > 0
+    if not ok:
+        W, cc = np.eye(3, dtype=np.float32), 0.0
     aligned = cv.warpPerspective(img_rect, W, (S, S), flags=cv.INTER_LINEAR | cv.WARP_INVERSE_MAP,
                                  borderMode=cv.BORDER_REPLICATE)
-    return {"aligned": aligned, "W": W, "cc": float(cc), "ok": ok}
+    return {"aligned": aligned, "W": W, "cc": float(cc), "ok": ok, "levels": levels}
 
 
 def apply_warp(img_rect: np.ndarray, W: np.ndarray) -> np.ndarray:

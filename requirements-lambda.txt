@@ -1,0 +1,4 @@
+# runtime dependencies of the worker (Lambda container and EC2 worker); no torch
+opencv-contrib-python-headless==5.0.0.93
+numpy>=2.0
+boto3

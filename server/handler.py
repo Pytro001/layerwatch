@@ -116,12 +116,18 @@ def _emit_metrics(build_id: str, rec: dict) -> None:
     m = {"LayerLatencyMs": rec["timing_ms"]["total"], "StopEvents": int(a == STOP), "RecoatEvents": int(a == RECOAT),
          "ReImageEvents": int(a == RE_IMAGE), "Defects": len(rec["detections"])}
     emf = {"_aws": {"Timestamp": int(time.time() * 1000), "CloudWatchMetrics": [{
-        "Namespace": NAMESPACE, "Dimensions": [["BuildId"]],
+        "Namespace": NAMESPACE, "Dimensions": [["BuildId"], []],
         "Metrics": [{"Name": "LayerLatencyMs", "Unit": "Milliseconds"}] +
                    [{"Name": k, "Unit": "Count"} for k in m if k != "LayerLatencyMs"]}]},
            "BuildId": build_id, "Layer": rec["layer_index"], "Action": a, **m}
     if os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get("LAYERWATCH_EMF"):
-        print(json.dumps(emf))
+        print(json.dumps(emf))  # Lambda ships stdout to CloudWatch Logs, EMF turns it into metrics
+    if os.environ.get("LAYERWATCH_PUT_METRICS"):  # EC2 / COOL worker: no EMF agent, publish directly
+        import boto3
+
+        data = [{"MetricName": k, "Value": float(v), "Unit": "Milliseconds" if k == "LayerLatencyMs" else "Count"}
+                for k, v in m.items()]
+        boto3.client("cloudwatch").put_metric_data(Namespace=NAMESPACE, MetricData=data)
 
 
 # ------------------------------------------------------------------ Lambda

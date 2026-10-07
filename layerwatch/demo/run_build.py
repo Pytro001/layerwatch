@@ -82,6 +82,7 @@ def main() -> None:
         shutil.rmtree(OUT)
     (OUT / "img").mkdir(parents=True)
     (OUT / "ov").mkdir(parents=True)
+    (OUT / "bed").mkdir(parents=True)
     store_root = ROOT / "data" / "demo_store"
     if store_root.exists():
         shutil.rmtree(store_root)
@@ -112,6 +113,9 @@ def main() -> None:
             stem = f"{i:03d}_{attempt}"
             cv.imwrite(str(OUT / "img" / f"{stem}_recoat.jpg"), r["recoat"], [cv.IMWRITE_JPEG_QUALITY, 80])
             cv.imwrite(str(OUT / "img" / f"{stem}_melt.jpg"), r["melt"], [cv.IMWRITE_JPEG_QUALITY, 80])
+            last = handler._WORKERS[BUILD_ID][0]._last
+            cv.imwrite(str(OUT / "bed" / f"{stem}_m.jpg"), last["melt"], [cv.IMWRITE_JPEG_QUALITY, 76])
+            cv.imwrite(str(OUT / "bed" / f"{stem}_r.jpg"), last["recoat"], [cv.IMWRITE_JPEG_QUALITY, 76])
             if ov:
                 for k, v in ov.items():
                     cv.imwrite(str(OUT / "ov" / f"{stem}_{k}.jpg"), v, [cv.IMWRITE_JPEG_QUALITY, 82])
@@ -168,7 +172,7 @@ def main() -> None:
         for a in L["attempts"]:
             acts[a["action"]] = acts.get(a["action"], 0) + 1
     run = {
-        "build_id": BUILD_ID, "n_layers": N, "part_height_m": part.HPIPE, "frame_half_m": part.FRAME_HALF,
+        "build_id": BUILD_ID, "n_layers": N, "camera": build.cam.to_dict(), "part_height_m": part.HPIPE, "frame_half_m": part.FRAME_HALF,
         "plate_half_m": part.PLATE_HALF, "image_size": S, "layers": layers, "points": points, "stops": stops,
         "actions": acts, "latency_ms": {"median": float(np.median(lat)), "p95": float(np.percentile(lat, 95)),
                                         "n": len(lat)},

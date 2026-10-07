@@ -25,9 +25,12 @@ T = {
     "streak_min_len": 70,  # px, merged Hough length to call it a streak
     "streak_max_angle": 4.0,  # degrees from the recoat axis
     "short_feed_ratio": 0.85,  # local brightness relative to fresh powder
-    "short_feed_min_area": 500,  # px
+    "short_feed_min_area": 800,  # px
+    "short_feed_sigma": 5.0,  # texture adaptive floor
     "spatter_tophat": 0.16,  # local contrast (fraction of powder level)
     "spatter_min_blobs": 2,
+    "spatter_cluster": 3,  # blobs in one cluster
+    "spatter_sigma": 7.0,  # texture adaptive contrast floor
     "spatter_link": 35,  # px, blobs closer than this belong to one ejection event
     "spatter_strong": 0.45,  # a single blob this bright counts on its own
     "se_tophat": 0.14,
@@ -35,9 +38,9 @@ T = {
     "se_abs": 1.15,  # a curled edge is brighter than fresh powder
     "glare_zone": 1.12,  # smoothed brightness above fresh powder: lamp reflection, not a defect
     "se_min_len": 14,
-    "blur_ratio": 0.8,  # half scale Laplacian variance of the powder relative to the reference
-    "blur_ratio_soft": 0.95,  # below this, a strongly directional texture also counts as blur
-    "aniso_min": 0.6,  # structure tensor lambda_min / lambda_max
+    "blur_ratio": 0.7,  # half scale Laplacian variance of the powder relative to the reference
+    "blur_ratio_soft": 0.95,  # between the two, a directional texture (motion) also counts as blur
+    "aniso_min": 0.78,  # structure tensor lambda_min / lambda_max
     "sat_frac": 0.0012,  # fraction of saturated pixels in the frame
     "ecc_min_cc": 0.6,
 }
@@ -186,14 +189,37 @@ def _merge_segments(segs: list) -> list:
     return groups
 
 
+def drop_streaks_on_patch_edges(sk: dict, patch: np.ndarray) -> None:
+    """the top and bottom edges of a bare patch are horizontal dark steps too;
+    a 'streak' that mostly runs along a short feed boundary is that edge, not a groove"""
+    if not patch.any() or not sk["streaks"]:
+        return
+    edge = cv.dilate(cv.morphologyEx(patch, cv.MORPH_GRADIENT, np.ones((3, 3), np.uint8)), np.ones((9, 9), np.uint8))
+    keep = []
+    for s in sk["streaks"]:
+        lm = np.zeros((S, S), np.uint8)
+        cv.line(lm, (s["x1"], int(s["y1"])), (s["x2"], int(s["y2"])), 255, 1)
+        on = ((lm > 0) & (edge > 0)).sum() / max(1, (lm > 0).sum())
+        if on < 0.5:
+            keep.append(s)
+    sk["streaks"] = keep
+    sk["count"] = len(keep)
+    sk["max_length_px"] = max([d["length_px"] for d in keep], default=0)
+    sk["inside_part_px"] = sum(d["inside_part_px"] for d in keep)
+
+
 # ----------------------------------------------------------- short feed
 
 
 def short_feed(recoat_flat: np.ndarray, expected_prev: np.ndarray | None = None) -> dict:
     """bare patches: the recoat left the far end of the bed without enough powder"""
     f = cv.GaussianBlur(recoat_flat, (0, 0), 3)
-    med = float(np.median(f[PLATE_INNER > 0]))
-    low = ((f < T["short_feed_ratio"] * med) & (PLATE_INNER > 0)).astype(np.uint8) * 255
+    v = f[PLATE_INNER > 0]
+    med = float(np.median(v))
+    # adapt to this bed: blotchy powder gets a lower threshold (5 robust sigmas of the smoothed texture)
+    sig = 1.4826 * float(np.median(np.abs(v - med))) / med
+    ratio = min(T["short_feed_ratio"], 1 - T["short_feed_sigma"] * sig)
+    low = ((f < ratio * med) & (PLATE_INNER > 0)).astype(np.uint8) * 255
     low = cv.morphologyEx(low, cv.MORPH_OPEN, cv.getStructuringElement(cv.MORPH_ELLIPSE, (7, 7)))
     n, lab, stats, cent = cv.connectedComponentsWithStats(low)
     regs = []
@@ -205,7 +231,7 @@ def short_feed(recoat_flat: np.ndarray, expected_prev: np.ndarray | None = None)
         depth = float(1 - f[lab == i].mean() / med)
         regs.append({"bbox": [int(x), int(y), int(x + w - 1), int(y + h - 1)], "area_px": int(a), "depth": round(depth, 3)})
         keep[lab == i] = 255
-    return {"regions": regs, "area_px": int(sum(r["area_px"] for r in regs)), "mask": keep}
+    return {"regions": regs, "area_px": int(sum(r["area_px"] for r in regs)), "mask": keep, "ratio": round(ratio, 3)}
 
 
 # ------------------------------------------------ (d) spatter + super elevation
@@ -246,6 +272,10 @@ def spatter(melt_flat: np.ndarray, expected: np.ndarray, fg: np.ndarray | None, 
     keep_out = cv.dilate(expected, cv.getStructuringElement(cv.MORPH_ELLIPSE, (9, 9)))
     th8 = np.clip(th / 0.6 * 255, 0, 255).astype(np.uint8)
     kps = _BLOB.detect(th8)
+    # contrast floor adapts to the grain of this bed: 7 robust sigmas of the top hat on bare powder
+    tv = th[(PLATE_INNER > 0) & (keep_out == 0)]
+    tmed = float(np.median(tv))
+    cmin = max(T["spatter_tophat"], tmed + T["spatter_sigma"] * 1.4826 * float(np.median(np.abs(tv - tmed))))
     blobs = []
     for kp in kps:
         x, y = int(round(kp.pt[0])), int(round(kp.pt[1]))
@@ -256,14 +286,25 @@ def spatter(melt_flat: np.ndarray, expected: np.ndarray, fg: np.ndarray | None, 
         r = max(1, int(kp.size / 2))
         c = float(th[max(0, y - r):y + r + 1, max(0, x - r):x + r + 1].max())
         new = True if fg is None else bool(fg[max(0, y - r):y + r + 1, max(0, x - r):x + r + 1].max() > 0)
-        if c >= T["spatter_tophat"] and (new or c >= 2 * T["spatter_tophat"]):
+        if c >= cmin and (new or c >= 2 * cmin):
             blobs.append({"x": x, "y": y, "r": round(kp.size / 2, 1), "contrast": round(c, 3), "mog2_new": new})
     # real spatter lands in clusters around the melt pool; lone bright grains do not count
     if blobs:
         P = np.array([[b["x"], b["y"]] for b in blobs], np.float32)
         D = np.hypot(P[:, None, 0] - P[None, :, 0], P[:, None, 1] - P[None, :, 1])
-        nb = (D < T["spatter_link"]).sum(1) - 1
-        blobs = [b for b, k in zip(blobs, nb) if k >= 1 or b["contrast"] >= T["spatter_strong"]]
+        # clusters by single linkage; keep clusters of at least spatter_cluster blobs
+        lab = list(range(len(blobs)))
+
+        def root(a: int) -> int:
+            while lab[a] != a:
+                lab[a] = lab[lab[a]]
+                a = lab[a]
+            return a
+        for a_, b_ in zip(*np.nonzero(D < T["spatter_link"])):
+            lab[root(int(a_))] = root(int(b_))
+        roots = [root(k) for k in range(len(blobs))]
+        size = {r: roots.count(r) for r in set(roots)}
+        blobs = [b for b, r in zip(blobs, roots) if size[r] >= T["spatter_cluster"] or b["contrast"] >= T["spatter_strong"]]
     exp_pts = np.column_stack(np.nonzero(expected))
     near = 0
     if len(blobs) and len(exp_pts):
@@ -272,7 +313,8 @@ def spatter(melt_flat: np.ndarray, expected: np.ndarray, fg: np.ndarray | None, 
             d = np.min(np.hypot(sub[:, 1] - b["x"], sub[:, 0] - b["y"]))
             near += int(d < 40)
     detected = len(blobs) >= T["spatter_min_blobs"]
-    return {"blobs": blobs, "count": len(blobs), "near_part": near, "detected": detected}
+    return_cmin = round(cmin, 3)
+    return {"blobs": blobs, "count": len(blobs), "near_part": near, "detected": detected, "contrast_min": return_cmin}
 
 
 def super_elevation(melt_flat: np.ndarray, expected: np.ndarray, th: np.ndarray, glare: np.ndarray | None = None) -> dict:

@@ -1,0 +1,1 @@
+{"onnx": "layerwatch_unet.onnx", "cv_dnn_vs_torch_max_abs_diff": 9.5367431640625e-06, "params": 482805}

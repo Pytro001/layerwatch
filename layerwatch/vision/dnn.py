@@ -16,7 +16,8 @@ import numpy as np
 S = 512
 NAMES = {1: "streak", 2: "spatter", 3: "super_elevation", 4: "short_feed"}
 # minimum component area (px) per class before the DNN calls a defect present
-MIN_AREA = {1: 60, 2: 6, 3: 30, 4: 400}
+MIN_AREA = {1: 60, 2: 12, 3: 30, 4: 400}
+MIN_STREAK_LEN = 70  # px, as stages.T["streak_min_len"]
 
 
 def make_input(recoat_flat: np.ndarray, melt_flat: np.ndarray, expected: np.ndarray) -> np.ndarray:
@@ -31,8 +32,7 @@ class Segmenter:
     def __init__(self, onnx_path: str | Path):
         self.path = str(onnx_path)
         self.net = cv.dnn.readNetFromONNX(self.path)
-        self.net.setPreferableBackend(cv.dnn.DNN_BACKEND_OPENCV)
-        self.net.setPreferableTarget(cv.dnn.DNN_TARGET_CPU)
+        # OpenCV 5 runs ONNX models on its new graph engine; the default backend is used as is
 
     def __call__(self, blob: np.ndarray) -> np.ndarray:
         self.net.setInput(blob)
@@ -48,14 +48,22 @@ class Segmenter:
             m = (cls == k).astype(np.uint8)
             if not m.any():
                 continue
+            if k == 2:
+                # spatter is many small droplets: one detection per cluster (35 px linking)
+                n, lab, stats, _ = cv.connectedComponentsWithStats(cv.dilate(m, np.ones((35, 35), np.uint8)))
+                for i in range(1, n):
+                    a = int(((lab == i) & (m > 0)).sum())
+                    if a >= MIN_AREA[k]:
+                        ys, xs = np.nonzero((lab == i) & (m > 0))
+                        found.append({"type": name, "bbox": [int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())], "area_px": a})
+                continue
             n, lab, stats, _ = cv.connectedComponentsWithStats(m)
             for i in range(1, n):
                 x, y, w, h, a = stats[i]
-                if a >= MIN_AREA[k]:
-                    found.append({"type": name, "bbox": [int(x), int(y), int(x + w - 1), int(y + h - 1)], "area_px": int(a)})
-        # spatter is many tiny blobs: also count the class total
-        sp = int((cls == 2).sum())
-        if sp >= 12 and not any(f["type"] == "spatter" for f in found):
-            ys, xs = np.nonzero(cls == 2)
-            found.append({"type": "spatter", "bbox": [int(xs.min()), int(ys.min()), int(xs.max()), int(ys.max())], "area_px": sp})
+                if a < MIN_AREA[k]:
+                    continue
+                if k == 1 and w < MIN_STREAK_LEN:
+                    continue  # same length rule as the Hough path
+                found.append({"type": name, "bbox": [int(x), int(y), int(x + w - 1), int(y + h - 1)], "area_px": int(a),
+                              **({"length_px": int(w)} if k == 1 else {})})
         return cls, found

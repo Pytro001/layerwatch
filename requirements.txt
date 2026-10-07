@@ -1,0 +1,16 @@
+opencv-contrib-python>=5.0.0
+numpy>=2.0
+scipy
+matplotlib
+onnx
+onnxruntime
+fastapi
+uvicorn
+pydantic>=2
+boto3
+markdown
+pytest
+httpx
+aws-cdk-lib>=2.150
+constructs>=10
+# torch (CPU) is installed separately: see `make setup`

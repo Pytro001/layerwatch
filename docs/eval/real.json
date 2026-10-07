@@ -3,11 +3,11 @@
   "dataset": "Aalto LPBF annotated powder bed images (EOS M290), CC-BY 4.0, doi:10.5281/zenodo.14996805",
   "images": 250,
   "gt_boxes": 803,
-  "box_recall": 0.507,
-  "detection_precision": 0.899,
-  "images_with_at_least_one_hit": 0.668,
-  "detections": 516,
-  "detections_per_image": 2.06,
+  "box_recall": 0.447,
+  "detection_precision": 0.924,
+  "images_with_at_least_one_hit": 0.604,
+  "detections": 422,
+  "detections_per_image": 1.69,
   "by_detector": {
    "streak": {
     "detections": 208,
@@ -15,23 +15,18 @@
     "precision": 0.962
    },
    "bright_blobs": {
-    "detections": 304,
-    "on_a_gt_box": 260,
-    "precision": 0.855
-   },
-   "dark_patch": {
-    "detections": 4,
-    "on_a_gt_box": 4,
-    "precision": 1.0
+    "detections": 214,
+    "on_a_gt_box": 190,
+    "precision": 0.888
    }
   },
-  "latency_ms_median": 91.7,
+  "latency_ms_median": 36.2,
   "builds": {
    "SI383820211201123521": 67,
    "SI383820240226095904": 22,
    "SI383820240318120348": 161
   },
-  "wall_s": 45.0
+  "wall_s": 14.5
  },
  "rows": [
   {
@@ -92,15 +87,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      395,
-      568,
-      415,
-      593
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       365,
       722,
       407,
@@ -113,7 +99,6 @@
     false
    ],
    "det_correct": [
-    false,
     false
    ]
   },
@@ -242,64 +227,10 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      408,
-      396,
-      427,
-      440
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      727,
-      413,
-      749,
-      441
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      852,
-      430,
-      878,
-      447
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       403,
       539,
       475,
       573
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      566,
-      566,
-      591,
-      596
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      692,
-      567,
-      754,
-      595
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      859,
-      585,
-      909,
-      596
      ]
     },
     {
@@ -353,12 +284,6 @@
     true,
     true,
     true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
     true
    ]
   },
@@ -372,43 +297,11 @@
      765
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      724,
-      577,
-      751,
-      603
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      861,
-      589,
-      902,
-      604
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      739,
-      720,
-      757,
-      746
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false
    ],
-   "det_correct": [
-    false,
-    false,
-    false
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820211201123521_00046_20211201T133856.131000",
@@ -424,46 +317,10 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      852,
-      247,
-      882,
-      303
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       384,
       386,
       419,
       397
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      845,
-      420,
-      893,
-      449
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      703,
-      541,
-      741,
-      603
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      861,
-      589,
-      902,
-      604
      ]
     }
    ],
@@ -471,10 +328,6 @@
     false
    ],
    "det_correct": [
-    false,
-    false,
-    false,
-    false,
     false
    ]
   },
@@ -500,35 +353,13 @@
      435
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      522,
-      552,
-      552,
-      602
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      364,
-      702,
-      406,
-      765
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
-    true,
+    false,
     false
    ],
-   "det_correct": [
-    true,
-    false
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820211201123521_00058_20211201T135234.807000",
@@ -1686,26 +1517,16 @@
       779,
       150
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      799,
-      766,
-      832,
-      811
-     ]
     }
    ],
    "gt_hit": [
-    true,
+    false,
     false,
     false,
     false
    ],
    "det_correct": [
-    false,
-    true
+    false
    ]
   },
   {
@@ -1841,26 +1662,16 @@
       716,
       147
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      786,
-      329,
-      831,
-      362
-     ]
     }
    ],
    "gt_hit": [
     false,
-    true,
+    false,
     false,
     false
    ],
    "det_correct": [
-    false,
-    true
+    false
    ]
   },
   {
@@ -1928,26 +1739,14 @@
      799
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      400,
-      320,
-      419,
-      358
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
-    true,
+    false,
     false,
     false,
     false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240226095904_00195_20240226T135718.343000",
@@ -1977,26 +1776,14 @@
      804
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      782,
-      325,
-      803,
-      349
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
-    true,
+    false,
     false,
     false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240226095904_00201_20240226T140203.644000",
@@ -2020,35 +1807,13 @@
      354
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      784,
-      322,
-      806,
-      341
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      430,
-      561,
-      450,
-      590
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
-    true,
+    false,
     false
    ],
-   "det_correct": [
-    true,
-    false
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240226095904_00207_20240226T140647.835000",
@@ -2127,26 +1892,14 @@
      800
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      789,
-      321,
-      824,
-      346
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
-    true,
+    false,
     false,
     false,
     false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240226095904_00219_20240226T141617.153000",
@@ -2223,34 +1976,12 @@
      803
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      413,
-      328,
-      448,
-      340
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      797,
-      773,
-      855,
-      810
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
-    true
+    false
    ],
-   "det_correct": [
-    false,
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240226095904_00231_20240226T150004.449000",
@@ -2284,15 +2015,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      779,
-      325,
-      799,
-      361
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       386,
       737,
       457,
@@ -2302,12 +2024,11 @@
    ],
    "gt_hit": [
     false,
-    true,
+    false,
     false,
     false
    ],
    "det_correct": [
-    true,
     false
    ]
   },
@@ -2521,15 +2242,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      770,
-      326,
-      808,
-      343
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       351,
       751,
       393,
@@ -2539,12 +2251,11 @@
    ],
    "gt_hit": [
     false,
-    true,
+    false,
     false,
     true
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -2570,25 +2281,13 @@
      792
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      778,
-      315,
-      813,
-      336
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
-    true,
+    false,
     false,
     false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240226095904_00273_20240226T155310.218000",
@@ -2941,15 +2640,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      637,
-      552,
-      671,
-      580
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       461,
       635,
       561,
@@ -2964,7 +2654,6 @@
     false
    ],
    "det_correct": [
-    false,
     true
    ]
   },
@@ -3002,27 +2691,15 @@
      430
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      844,
-      344,
-      877,
-      408
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
     false,
     false,
-    true,
-    true
+    false,
+    false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240318120348_00190_20240318T134845.350000",
@@ -3050,23 +2727,11 @@
      355
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      846,
-      343,
-      874,
-      354
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
-    true
+    false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240318120348_00343_20240318T144602.131000",
@@ -3583,15 +3248,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      628,
-      563,
-      703,
-      577
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       471,
       637,
       531,
@@ -3605,7 +3261,6 @@
     true
    ],
    "det_correct": [
-    false,
     true
    ]
   },
@@ -4174,15 +3829,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      631,
-      495,
-      697,
-      518
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       471,
       656,
       556,
@@ -4192,11 +3838,10 @@
    ],
    "gt_hit": [
     true,
-    true,
+    false,
     false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -4288,15 +3933,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      815,
-      343,
-      833,
-      389
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       618,
       474,
       705,
@@ -4317,10 +3953,9 @@
     true,
     true,
     false,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -5090,15 +4725,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      844,
-      370,
-      871,
-      408
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       627,
       505,
       694,
@@ -5125,7 +4751,6 @@
     false
    ],
    "det_correct": [
-    false,
     true,
     true
    ]
@@ -5494,15 +5119,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      807,
-      351,
-      860,
-      399
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       609,
       493,
       704,
@@ -5520,7 +5136,7 @@
     }
    ],
    "gt_hit": [
-    true,
+    false,
     true,
     true,
     false,
@@ -5528,7 +5144,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true,
     true
@@ -5590,15 +5205,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      788,
-      403,
-      821,
-      415
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       627,
       503,
       703,
@@ -5626,7 +5232,6 @@
     false
    ],
    "det_correct": [
-    false,
     true,
     true
    ]
@@ -5687,15 +5292,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      788,
-      346,
-      851,
-      360
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       618,
       503,
       703,
@@ -5714,8 +5310,8 @@
    ],
    "gt_hit": [
     false,
-    true,
-    true,
+    false,
+    false,
     false,
     true,
     true,
@@ -5723,7 +5319,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -6114,15 +5709,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      657,
-      505,
-      673,
-      552
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       458,
       648,
       535,
@@ -6138,7 +5724,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true,
     true,
@@ -6551,15 +6136,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      788,
-      403,
-      861,
-      417
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       610,
       496,
       664,
@@ -6589,7 +6165,6 @@
     true,
     true,
     true,
-    false,
     true,
     true
    ]
@@ -6864,15 +6439,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      777,
-      341,
-      796,
-      404
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       619,
       503,
       706,
@@ -6893,10 +6459,9 @@
     true,
     true,
     false,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -7199,15 +6764,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      779,
-      340,
-      842,
-      362
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       618,
       512,
       703,
@@ -7228,12 +6784,11 @@
     true,
     true,
     true,
-    true,
+    false,
     true,
     false
    ],
    "det_correct": [
-    true,
     true,
     true,
     true
@@ -7298,15 +6853,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      837,
-      414,
-      870,
-      426
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       606,
       495,
       685,
@@ -7334,7 +6880,6 @@
    ],
    "det_correct": [
     true,
-    false,
     true,
     true
    ]
@@ -7404,15 +6949,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      846,
-      398,
-      870,
-      416
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       607,
       494,
       685,
@@ -7440,7 +6976,6 @@
     true,
     true,
     true,
-    false,
     true,
     true
    ]
@@ -7790,24 +7325,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      798,
-      394,
-      870,
-      409
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      638,
-      550,
-      673,
-      562
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       450,
       648,
       537,
@@ -7823,8 +7340,6 @@
    "det_correct": [
     true,
     true,
-    true,
-    false,
     true,
     true
    ]
@@ -7864,15 +7379,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      638,
-      550,
-      692,
-      562
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       459,
       675,
       529,
@@ -7886,7 +7392,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -7931,15 +7436,6 @@
       685,
       556
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      481,
-      675,
-      519,
-      687
-     ]
     }
    ],
    "gt_hit": [
@@ -7948,7 +7444,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -7987,23 +7482,13 @@
       778,
       336
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      635,
-      550,
-      692,
-      564
-     ]
     }
    ],
    "gt_hit": [
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -8048,15 +7533,6 @@
       752,
       470
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      610,
-      498,
-      646,
-      510
-     ]
     }
    ],
    "gt_hit": [
@@ -8065,7 +7541,6 @@
     false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -8618,24 +8093,14 @@
       686,
       581
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      807,
-      395,
-      861,
-      423
-     ]
     }
    ],
    "gt_hit": [
-    true,
+    false,
     true,
     false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -8791,24 +8256,14 @@
       566,
       337
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      656,
-      545,
-      683,
-      562
-     ]
     }
    ],
    "gt_hit": [
     true,
-    true,
+    false,
     false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -8871,15 +8326,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      621,
-      550,
-      652,
-      561
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       459,
       674,
       529,
@@ -8894,7 +8340,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true,
     true,
@@ -8938,26 +8383,16 @@
       852,
       425
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      619,
-      550,
-      652,
-      561
-     ]
     }
    ],
    "gt_hit": [
     false,
     false,
-    true,
+    false,
     false
    ],
    "det_correct": [
-    false,
-    true
+    false
    ]
   },
   {
@@ -9018,15 +8453,6 @@
       682,
       571
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      432,
-      639,
-      510,
-      661
-     ]
     }
    ],
    "gt_hit": [
@@ -9038,7 +8464,6 @@
     true,
     true,
     false,
-    true,
     true
    ]
   },
@@ -9267,35 +8692,13 @@
      678
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      628,
-      540,
-      674,
-      562
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      461,
-      696,
-      518,
-      708
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
-    true,
+    false,
     false
    ],
-   "det_correct": [
-    true,
-    false
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240318120348_00907_20240318T181641.531000",
@@ -9663,28 +9066,10 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      779,
-      393,
-      833,
-      407
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       619,
       548,
       673,
       571
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      459,
-      674,
-      520,
-      708
      ]
     }
    ],
@@ -9692,11 +9077,9 @@
     true,
     true,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
-    true,
     true,
     true,
     true,
@@ -9956,24 +9339,6 @@
       372,
       543
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      772,
-      352,
-      798,
-      414
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      611,
-      516,
-      642,
-      541
-     ]
     }
    ],
    "gt_hit": [
@@ -9982,8 +9347,6 @@
     true
    ],
    "det_correct": [
-    true,
-    true,
     true,
     true,
     true,
@@ -10032,15 +9395,6 @@
       423,
       575
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      468,
-      521,
-      515,
-      535
-     ]
     }
    ],
    "gt_hit": [
@@ -10049,7 +9403,6 @@
     false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -10076,25 +9429,13 @@
      752
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      514,
-      505,
-      557,
-      532
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
-    true,
+    false,
     false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240318120348_00979_20240318T184408.513000",
@@ -10136,24 +9477,14 @@
       655,
       546
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      280,
-      655,
-      340,
-      708
-     ]
     }
    ],
    "gt_hit": [
     true,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -10189,44 +9520,14 @@
       428,
       366
      ]
-    },
-    {
-     "type": "dark_patch",
-     "bbox_cam": [
-      567,
-      485,
-      637,
-      535
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      577,
-      520,
-      661,
-      561
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      405,
-      654,
-      456,
-      682
-     ]
     }
    ],
    "gt_hit": [
     true,
-    true,
-    true
+    false,
+    false
    ],
    "det_correct": [
-    true,
-    true,
-    true,
     true
    ]
   },
@@ -10256,15 +9557,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      258,
-      480,
-      285,
-      534
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       302,
       701,
       336,
@@ -10274,11 +9566,10 @@
    ],
    "gt_hit": [
     false,
-    true,
+    false,
     true
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -10310,26 +9601,14 @@
      751
     ]
    ],
-   "detections": [
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      269,
-      685,
-      356,
-      710
-     ]
-    }
-   ],
+   "detections": [],
    "gt_hit": [
     false,
     false,
-    true,
+    false,
     false
    ],
-   "det_correct": [
-    true
-   ]
+   "det_correct": []
   },
   {
    "image": "SI383820240318120348_01003_20240318T185343.188000",
@@ -10443,34 +9722,14 @@
       556,
       496
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      224,
-      347,
-      298,
-      371
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      470,
-      687,
-      507,
-      713
-     ]
     }
    ],
    "gt_hit": [
+    false,
     true,
-    true,
-    true
+    false
    ],
    "det_correct": [
-    true,
-    true,
     true,
     true
    ]
@@ -10512,25 +9771,15 @@
       400,
       639
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      472,
-      687,
-      507,
-      716
-     ]
     }
    ],
    "gt_hit": [
     false,
     false,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -10565,44 +9814,14 @@
       444,
       497
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      274,
-      358,
-      308,
-      370
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      608,
-      511,
-      656,
-      551
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      472,
-      687,
-      507,
-      716
-     ]
     }
    ],
    "gt_hit": [
+    false,
     true,
-    true,
-    true
+    false
    ],
    "det_correct": [
-    true,
-    true,
-    true,
     true
    ]
   },
@@ -10646,24 +9865,14 @@
       473,
       332
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      470,
-      687,
-      507,
-      716
-     ]
     }
    ],
    "gt_hit": [
     true,
     false,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -10786,25 +9995,15 @@
       385,
       582
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      472,
-      686,
-      507,
-      716
-     ]
     }
    ],
    "gt_hit": [
     false,
     true,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -11334,15 +10533,6 @@
       816,
       408
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      327,
-      717,
-      389,
-      731
-     ]
     }
    ],
    "gt_hit": [
@@ -11351,7 +10541,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true,
     true,
@@ -11431,24 +10620,14 @@
       710,
       566
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      262,
-      679,
-      285,
-      733
-     ]
     }
    ],
    "gt_hit": [
     false,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -11485,15 +10664,6 @@
      ]
     },
     {
-     "type": "dark_patch",
-     "bbox_cam": [
-      548,
-      493,
-      630,
-      543
-     ]
-    },
-    {
      "type": "bright_blobs",
      "bbox_cam": [
       281,
@@ -11518,7 +10688,6 @@
     true
    ],
    "det_correct": [
-    true,
     true,
     true,
     true
@@ -11555,24 +10724,14 @@
       343,
       568
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      182,
-      663,
-      219,
-      674
-     ]
     }
    ],
    "gt_hit": [
     false,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -11607,15 +10766,6 @@
       673,
       338
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      492,
-      335,
-      524,
-      375
-     ]
     }
    ],
    "gt_hit": [
@@ -11624,7 +10774,6 @@
     false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -11659,34 +10808,14 @@
       491,
       333
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      280,
-      517,
-      311,
-      534
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      187,
-      677,
-      214,
-      697
-     ]
     }
    ],
    "gt_hit": [
     true,
-    true,
-    true
+    false,
+    false
    ],
    "det_correct": [
-    true,
-    true,
     true
    ]
   },
@@ -12533,24 +11662,14 @@
       500,
       517
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      778,
-      339,
-      814,
-      383
-     ]
     }
    ],
    "gt_hit": [
-    true,
+    false,
     true,
     false
    ],
    "det_correct": [
-    true,
     true
    ]
   },
@@ -12596,15 +11715,6 @@
      ]
     },
     {
-     "type": "dark_patch",
-     "bbox_cam": [
-      731,
-      357,
-      802,
-      399
-     ]
-    },
-    {
      "type": "bright_blobs",
      "bbox_cam": [
       554,
@@ -12612,35 +11722,14 @@
       629,
       561
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      191,
-      533,
-      219,
-      571
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      306,
-      660,
-      344,
-      703
-     ]
     }
    ],
    "gt_hit": [
     true,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
-    true,
-    true,
     true,
     true,
     true
@@ -12774,15 +11863,6 @@
    ],
    "detections": [
     {
-     "type": "dark_patch",
-     "bbox_cam": [
-      493,
-      480,
-      628,
-      533
-     ]
-    },
-    {
      "type": "bright_blobs",
      "bbox_cam": [
       360,
@@ -12794,40 +11874,19 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      718,
-      348,
-      779,
-      381
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       378,
       514,
       518,
       546
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      361,
-      648,
-      386,
-      684
      ]
     }
    ],
    "gt_hit": [
     true,
     true,
-    true
+    false
    ],
    "det_correct": [
-    true,
-    true,
-    true,
     true,
     true
    ]
@@ -12867,15 +11926,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      193,
-      513,
-      273,
-      548
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       446,
       524,
       522,
@@ -12889,7 +11939,6 @@
     false
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -12929,15 +11978,6 @@
     {
      "type": "bright_blobs",
      "bbox_cam": [
-      533,
-      523,
-      577,
-      565
-     ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
       179,
       692,
       409,
@@ -12947,11 +11987,10 @@
    ],
    "gt_hit": [
     true,
-    true,
+    false,
     true
    ],
    "det_correct": [
-    true,
     true,
     true
    ]
@@ -12987,15 +12026,6 @@
       473,
       339
      ]
-    },
-    {
-     "type": "bright_blobs",
-     "bbox_cam": [
-      621,
-      384,
-      638,
-      404
-     ]
     }
    ],
    "gt_hit": [
@@ -13004,7 +12034,6 @@
     false
    ],
    "det_correct": [
-    true,
     true
    ]
   },

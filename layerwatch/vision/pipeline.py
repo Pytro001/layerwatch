@@ -97,6 +97,7 @@ class LayerWatch:
         t1 = time.perf_counter()
         sk = st.streaks(rf, expected)
         sf = st.short_feed(rf)
+        st.drop_streaks_on_patch_edges(sk, sf["mask"])
         t["streaks"] = time.perf_counter() - t1
 
         # (d) spatter and super elevation on the melt frame, MOG2 over previous layers
@@ -123,6 +124,9 @@ class LayerWatch:
             t1 = time.perf_counter()
             logits = self.seg(make_input(rf, mf, expected))
             cls, dnn_found = Segmenter.components(logits, st.PLATE_INNER)
+            # a lamp reflection is not a bright defect, for the network either
+            dnn_found = [d for d in dnn_found if d["type"] not in ("spatter", "super_elevation")
+                         or gz[(d["bbox"][1] + d["bbox"][3]) // 2, (d["bbox"][0] + d["bbox"][2]) // 2] == 0]
             t["dnn"] = time.perf_counter() - t1
 
         rules_found = self._rules_detections(sk, sf, sp, se)

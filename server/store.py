@@ -53,7 +53,7 @@ class AwsStore:
         self.table = boto3.resource("dynamodb").Table(table or os.environ["LAYER_TABLE"])
 
     def put_bytes(self, key: str, data: bytes) -> None:
-        self.s3.put_object(Bucket=self.bucket, Key=key, Body=data, ServerSideEncryption="aws:kms")
+        self.s3.put_object(Bucket=self.bucket, Key=key, Body=data)  # bucket default encryption applies
 
     def get_bytes(self, key: str) -> bytes:
         return self.s3.get_object(Bucket=self.bucket, Key=key)["Body"].read()

@@ -65,7 +65,7 @@ class Agent:
                 return Decision(STOP, f"camera evidence still unusable after {attempt} re-images: " + "; ".join(ev["reasons"]),
                                 {"reasons": ev["reasons"], "attempt": attempt}, "critical")
             return Decision(RE_IMAGE, "frame not good enough to judge, taking it again: " + "; ".join(ev["reasons"]),
-                            {"reasons": ev["reasons"], "lap_ratio": ev["melt"]["lap_ratio"],
+                            {"reasons": ev["reasons"], "lap_ratio": min(ev["melt"]["lap_ratio"], ev["recoat"]["lap_ratio"]),
                              "saturated_frac": max(ev["melt"]["saturated_frac"], ev["recoat"]["saturated_frac"]),
                              "attempt": attempt}, "warn")
 

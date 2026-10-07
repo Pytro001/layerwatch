@@ -1,0 +1,11 @@
+.venv
+data
+dashboard
+infra
+output
+docs
+tests
+node_modules
+.git
+.env
+models/*.pt

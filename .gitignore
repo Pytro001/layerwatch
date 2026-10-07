@@ -12,3 +12,7 @@ output/frames/
 .pytest_cache/
 .DS_Store
 models/*.pt
+dashboard/public/run/img/
+dashboard/public/run/bed/
+infra/node_modules/
+infra/cdk.out/

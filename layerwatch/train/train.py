@@ -123,7 +123,7 @@ def main() -> None:
     tr = DataLoader(Crops(train_b, data, 10 ** 9, 1), batch_size=a.batch, sampler=sampler, num_workers=2,
                     persistent_workers=True)
 
-    va = DataLoader(Crops(val_b, data, 96, 2, train=False), batch_size=a.batch, num_workers=1, persistent_workers=True)
+    va = DataLoader(Crops(val_b, data, 48, 2, train=False), batch_size=a.batch, num_workers=1, persistent_workers=True)
     net = UNet()
     opt = torch.optim.AdamW(net.parameters(), lr=2e-3, weight_decay=1e-4)
     max_epochs = 60
