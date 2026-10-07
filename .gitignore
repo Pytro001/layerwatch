@@ -7,7 +7,6 @@ data/
 node_modules/
 dashboard/dist/
 infra/cdk.out/
-output/*.mp4
 output/frames/
 .pytest_cache/
 .DS_Store
