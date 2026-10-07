@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/
+!data/.gitkeep
+node_modules/
+dashboard/dist/
+infra/cdk.out/
+output/*.mp4
+output/frames/
+.pytest_cache/
+.DS_Store
+models/*.pt
