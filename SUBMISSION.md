@@ -13,7 +13,7 @@ Layer by layer vision QA for metal 3D printing. OpenCV 5 finds recoater streaks,
 
 ## Links
 
-* Repository: [REPO] (https://github.com/Pytro001/layerwatch, public, Apache 2.0)
+* Repository: https://github.com/Pytro001/layerwatch (https://github.com/Pytro001/layerwatch, public, Apache 2.0)
 * Video: [VIDEO]
 * Demo / web endpoint: [DEMO] (local: `make serve` then http://localhost:8304; the AWS endpoint is not deployed, see "Web endpoint")
 * Report: docs/LayerWatch_Report.pdf in the repository
@@ -36,7 +36,7 @@ opencv, opencv-5, python, numpy, pytorch, onnx, fastapi, aws-cdk, aws-lambda, aw
 ## Testing instructions (for judges)
 
 ```bash
-git clone [REPO] && cd layerwatch
+git clone https://github.com/Pytro001/layerwatch && cd layerwatch
 make setup                 # Python 3.12 (uv) + Node deps
 make test                  # 23 tests, includes: OpenCV major version is 5
 make demo                  # 480 layer demo build through the handler (about 5 minutes)
