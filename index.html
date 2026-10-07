@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LayerWatch</title>
+  <meta name="description" content="Layer by layer vision QA for metal 3D printing, built on OpenCV 5." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='6' width='24' height='4' rx='1' fill='%234da3ff'/%3E%3Crect x='4' y='14' width='24' height='4' rx='1' fill='%237f8a99'/%3E%3Crect x='4' y='22' width='24' height='4' rx='1' fill='%23ff4d4f'/%3E%3C/svg%3E" />
+  <script type="module" crossorigin src="./assets/index-DRFQcNhb.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-rkiljt6c.css">
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="name">LayerWatch</span>
+        <span class="sub" id="buildLabel"></span>
+      </div>
+      <nav class="views" role="tablist" aria-label="Views">
+        <button role="tab" data-view="monitor" aria-keyshortcuts="Q">Monitor <kbd>Q</kbd></button>
+        <button role="tab" data-view="metrics" aria-keyshortcuts="W">Evaluation <kbd>W</kbd></button>
+        <button role="tab" data-view="aws" aria-keyshortcuts="E">AWS <kbd>E</kbd></button>
+        <button role="tab" data-view="map" aria-keyshortcuts="R">Defect map <kbd>R</kbd></button>
+      </nav>
+      <div class="status">
+        <span class="layerno" id="layerNo"></span>
+        <span class="pill" id="statusPill"></span>
+      </div>
+    </header>
+
+    <main id="monitor" class="view">
+      <section class="cam card">
+        <div class="tabs" role="tablist" aria-label="Pipeline stage" id="stageTabs"></div>
+        <div class="cam-body">
+          <div class="frame" id="frame">
+            <img id="frameImg" alt="powder bed frame" />
+            <svg id="boxes" viewBox="0 0 512 512" preserveAspectRatio="none" aria-hidden="true"></svg>
+            <div class="frame-tag" id="frameTag"></div>
+          </div>
+          <aside class="measure" id="measure" aria-live="polite"></aside>
+        </div>
+      </section>
+      <section class="side">
+        <div class="card three-card"><div id="threeHost" class="three-host"></div><div class="three-tag" id="threeTag"></div></div>
+        <div class="card log-card">
+          <div class="card-h"><span>Agent log</span><span class="muted">transparent policy, every action with its numbers</span></div>
+          <ol class="log" id="log"></ol>
+        </div>
+      </section>
+      <footer class="timeline card">
+        <div class="tl-head">
+          <button id="playBtn" aria-keyshortcuts="Space" title="Play / pause (Space)">Play</button>
+          <button id="apiBtn" title="Send this layer's two frames to the local endpoint (A)" aria-keyshortcuts="A">Run layer via API <kbd>A</kbd></button>
+          <div class="kpis" id="kpis"></div>
+        </div>
+        <canvas id="tl" width="1840" height="58" aria-label="Layer timeline, click to jump"></canvas>
+        <div class="legend">
+          <span><i style="background:#2b4c3f"></i>continue</span><span><i style="background:#ffb020"></i>recoat</span>
+          <span><i style="background:#8ab4ff"></i>re-image</span><span><i style="background:#ff4d4f"></i>stop</span>
+          <span class="keys">&larr; &rarr; layer &middot; Shift x10 &middot; &uarr; &darr; attempt &middot; N / P next or previous event &middot; 1 to 8 stage &middot; F frame</span>
+        </div>
+      </footer>
+    </main>
+
+    <main id="metrics" class="view" hidden></main>
+    <main id="aws" class="view" hidden></main>
+    <main id="map" class="view" hidden>
+      <div id="mapHost" class="map-host"></div>
+      <div class="map-legend card" id="mapLegend"></div>
+    </main>
+    <div id="caption" class="caption" hidden></div>
+    <div id="toast" class="toast" hidden role="status"></div>
+  </div>
+</body>
+</html>
